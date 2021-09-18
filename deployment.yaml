@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+# deployment metadata
+metadata:
+  # deployment name
+  name: comment-management-deployment
+spec:
+  # Create 2 pods
+  replicas: 2
+  # the pods need to matchLabels
+  selector:
+    matchLabels:
+      app: comment-management
+  # define update strategy
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  # Wait at least 5 seconds when containers start
+  minReadySeconds: 5
+  # pod definition
+  template:
+    # pod metadata
+    metadata:
+      # pod labels info
+      labels:
+        app: comment-management
+    spec:
+      containers:
+        - name: comment-management-container
+          # use the docker images
+          image: alexandrekim/fabryque_backend:comment-management_latest
+          ports:
+            - containerPort: 5010
+          # Check the cpu resource
+          resources:
+            limits:
+              cpu: "100m"
+            requests:
+              cpu: "100m"
+          # The kubelet uses liveness probes to know when to restart a container.
+          livenessProbe:
+            httpGet:
+              path: /test/comment-management/api/up
+              port: 5010
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3

@@ -1,0 +1,16 @@
+/node_modules
+npm-debug.log
+.nyc_output
+/coverage
+/.idea
+/dist
+.env
+.idea
+.vscode
+*.log
+*lock.json
+*.gz
+/tmp
+src/services/sf-express/OrderModel.txt
+src/controllers/test.controller.js
+.scannerwork

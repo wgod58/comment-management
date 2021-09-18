@@ -6,14 +6,8 @@ describe('Test Config', () => {
       'APP_NAME',
       'BASE_URL',
       'ENVIRONMENT',
-      'FABRYQUE_PWA_UNSUBSCRIBE',
       'SERVER_PORT',
-      'BOA_URL',
-      'GCP',
       'DATABASE',
-      'EMAIL_MANAGEMENT',
-      'STAFF_HANDLERS',
-      'SKNAPP_ACCESS_TOKEN',
     ]);
   });
 });

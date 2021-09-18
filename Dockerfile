@@ -6,6 +6,6 @@ COPY ./.env /workspace
 WORKDIR /workspace
 RUN yarn cache clean
 RUN yarn install
-EXPOSE 5000-7000
+EXPOSE 5010
 
 CMD [ "yarn","run","start:docker" ]

@@ -1,6 +1,6 @@
-import Comment from './schemas/comment';
-import Organization from './schemas/organization';
+import commentModel from './schemas/comment';
+import organizationModel from './schemas/organization';
 
-Organization.hasMany(Comment);
+organizationModel.hasMany(commentModel);
 
-export { Comment, Organization };
+export { commentModel, organizationModel };

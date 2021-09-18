@@ -3,9 +3,8 @@ import expressHealthCheck from 'express-healthcheck';
 import swaggerUi from 'swagger-ui-express';
 import versionHealthCheck from 'version-healthcheck';
 import CONFIG from 'constants/config';
-import * as commentsController from 'controllers/comments';
+import commentsController from 'controllers/comment';
 import apiSwagger from 'swagger/apis.json';
-import { wrapResponse } from 'utils/responseHandler';
 
 const router = express.Router();
 
@@ -27,16 +26,13 @@ if (CONFIG.ENVIRONMENT === 'development') {
 /* User endpoints */
 router.get(
   '/orgs/:orgName/comments',
-  wrapResponse(commentsController.updateUser),
+  commentsController.getCommentsByOrganization,
 );
 
 router.post(
-  '/send-password-changed-email',
-  wrapResponse(commentsController.sendPasswordChangedNotification),
+  '/orgs/:orgName/comments',
+  commentsController.updatePostAndOrganization,
 );
-router.delete(
-  '/unsubscribe/:email',
-  wrapResponse(commentsController.unsubscribe),
-);
+router.delete('/orgs/:orgName/comments', commentsController.deleteComments);
 
 export default router;

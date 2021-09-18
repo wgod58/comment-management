@@ -49,27 +49,19 @@ app.use(
   }),
 );
 
-app.use(`/${BASE_URL[config.ENVIRONMENT]}/${config.APP_NAME}/api`, routes);
+app.use(`/${config.APP_NAME}/`, routes);
 
-// Catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next({
-    status: responses.NOT_FOUND.status,
-    message: responses.NOT_FOUND.message,
+  logger.error(`${nameSpace} :app.use=> Not found`);
+
+  return res.status(responses.NOT_FOUND.status).json({
+    error: responses.NOT_FOUND.message,
   });
 });
 
-// Error handler middleware
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  logger.error(`${nameSpace} :app.use=> ${JSON.stringify(err)}`);
-  const error = {
-    status: err.status || responses.SERVER_ERROR.status,
-    message: err.message || responses.SERVER_ERROR.message,
-  };
-
-  res.status(error.status).json(error);
-  next(err);
+app.use(function (err, req, res, next) {
+  logger.error(`${nameSpace} :app.use ${JSON.stringify(err.stack)}`);
+  res.status(500).send('Server error!');
 });
 
 export default app;

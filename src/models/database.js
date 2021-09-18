@@ -11,7 +11,7 @@ const sequelize = new Sequelize(
     host: DATABASE.HOST,
     protocol: DATABASE.PORT,
     dialect: 'postgres',
-    logging: true, // Set true to print executing sql
+    logging: false, // Set true to print executing sql
 
     define: {
       underscored: false,

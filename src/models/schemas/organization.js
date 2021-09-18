@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database';
 
-const Organization = sequelize.define('organization', {
+const organizationModel = sequelize.define('organization', {
   orgName: DataTypes.STRING,
 });
 
-export default Organization;
+export default organizationModel;

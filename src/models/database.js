@@ -10,7 +10,6 @@ const sequelize = new Sequelize(
   {
     dialect: 'postgres',
     host: DATABASE.HOST,
-    port: 5432,
     logging: false, // Set true to print executing sql
 
     define: {

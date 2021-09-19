@@ -13,7 +13,7 @@ spec:
         run: web
     spec:
       containers:
-        - image: gcr.io/xend-326306/comment-management:latest
+        - image: gcr.io/xend-326306/comment-management:v1
           imagePullPolicy: IfNotPresent
           name: web
           ports:

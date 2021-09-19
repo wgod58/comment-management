@@ -27,7 +27,7 @@ steps:
       [
         "set",
         "image",
-        "deployment/comment-management-deployment",
+        "comment-management-deployment",
         "gcr.io/$PROJECT_ID/comment-management:$SHORT_SHA",
       ]
     env:

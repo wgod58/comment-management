@@ -47,7 +47,7 @@ spec:
                   name: db-secret
                   key: database
           # use the docker images
-          image: gcr.io/xend-326306:comment-management
+          image: gcr.io/xend-326306:comment-management:latest
           ports:
             - containerPort: 5010
           # The kubelet uses liveness probes to know when to restart a container.

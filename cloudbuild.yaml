@@ -27,8 +27,8 @@ steps:
       [
         "set",
         "image",
-        "comment-management-deployment",
-        "gcr.io/$PROJECT_ID/comment-management:$SHORT_SHA",
+        "deployment/comment-management-deployment",
+        "comment-management-container=gcr.io/$PROJECT_ID/comment-management:$SHORT_SHA",
       ]
     env:
       - "CLOUDSDK_COMPUTE_ZONE=us-west1-a"

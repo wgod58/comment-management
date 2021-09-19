@@ -29,20 +29,37 @@ spec:
     spec:
       containers:
         - name: comment-management-container
+          # env
+          env:
+          - name: DB_ACCOUNT
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: password
+          - name: DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: database
           # use the docker images
-          image: alexandrekim/fabryque_backend:comment-management_latest
+          image: gcr.io/xend-326306:comment-management
           ports:
             - containerPort: 5010
           # Check the cpu resource
           resources:
             limits:
-              cpu: "100m"
+              cpu: "1000m"
             requests:
-              cpu: "100m"
+              cpu: "700m"
           # The kubelet uses liveness probes to know when to restart a container.
           livenessProbe:
             httpGet:
-              path: /test/comment-management/api/up
+              path: /comment-management/up
               port: 5010
             initialDelaySeconds: 15
             periodSeconds: 15

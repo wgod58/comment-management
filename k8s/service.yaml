@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: comment-management-service
+spec:
+  type: NodePort
+  # select match pods
+  selector:
+    app: comment-management
+  # targetPort and serve port
+  ports:
+    - protocol: TCP
+      targetPort: 5010
+      port: 5010

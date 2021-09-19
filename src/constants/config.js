@@ -9,6 +9,7 @@ const CONFIG = {
     PORT: process.env.DB_PORT,
     ACCOUNT: process.env.DB_ACCOUNT,
     PASSWORD: process.env.DB_PASSWORD,
+    SOCKET_PATH: process.env.SOCKET_PATH,
   },
 };
 

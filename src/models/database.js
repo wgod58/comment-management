@@ -8,9 +8,10 @@ const sequelize = new Sequelize(
   DATABASE.ACCOUNT,
   DATABASE.PASSWORD,
   {
-    host: DATABASE.HOST,
-    protocol: DATABASE.PORT,
     dialect: 'postgres',
+    dialectOptions: {
+      socketPath: DATABASE.SOCKET_PATH,
+    },
     logging: false, // Set true to print executing sql
 
     define: {

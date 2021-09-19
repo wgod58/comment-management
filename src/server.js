@@ -30,6 +30,13 @@ const interceptResponseBody = (req, res, next) => {
 };
 
 app.server = http.createServer(app);
+app.use(
+  morgan('tiny', {
+    stream: {
+      write: (message) => logger.info(message.trim()),
+    },
+  }),
+);
 app.use(compression());
 app.use(helmet());
 app.use(cors());
@@ -38,14 +45,6 @@ app.use(express.json({ limit: BODY_PARSER_LIMIT }));
 app.use(
   express.urlencoded({
     extended: true,
-  }),
-);
-
-app.use(
-  morgan('tiny', {
-    stream: {
-      write: (message) => logger.info(message.trim()),
-    },
   }),
 );
 

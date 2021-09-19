@@ -12,15 +12,17 @@ steps:
   - name: "gcr.io/cloud-builders/yarn"
     args: ["run", "build"]
   # Build the container image
+  - name: gcr.io/cloud-builders/docker
+    args: [
+    'build', 
+    '-t', 
+    'gcr.io/$PROJECT_ID/comment-management:$SHORT_SHA',
+    '-t', 
+    'gcr.io/$PROJECT_ID/comment-management:latest',
+    '.'
+    ]
   - name: "gcr.io/cloud-builders/docker"
-    args:
-      ["build", "-t", "gcr.io/$PROJECT_ID/comment-management:$SHORT_SHA", "."]
-  # k8s setting apply
-  - name: "gcr.io/cloud-builders/kubectl"
-    args: ["apply", "-f", "k8s/"]
-    env:
-      - "CLOUDSDK_COMPUTE_ZONE=us-west1-a"
-      - "CLOUDSDK_CONTAINER_CLUSTER=loadbalance"
+    args: ["push", "gcr.io/$PROJECT_ID/comment-management:$SHORT_SHA"]
   # Update container image to GKE
   - name: "gcr.io/cloud-builders/kubectl"
     args:
@@ -34,8 +36,4 @@ steps:
       - "CLOUDSDK_COMPUTE_ZONE=us-west1-a"
       - "CLOUDSDK_CONTAINER_CLUSTER=loadbalance"
 # Push the container image to Container Registry
-images:
-  [
-    "gcr.io/$PROJECT_ID/comment-management:$SHORT_SHA",
-    "gcr.io/$PROJECT_ID/comment-management:latest",
-  ]
+images: ["gcr.io/$PROJECT_ID/comment-management:latest"]

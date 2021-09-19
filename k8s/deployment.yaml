@@ -1,34 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
-# deployment metadata
 metadata:
-  # deployment name
   name: comment-management-deployment
+  namespace: default
 spec:
-  # Create 2 pods
-  replicas: 2
-  # the pods need to matchLabels
   selector:
     matchLabels:
-      app: comment-management
-  # define update strategy
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  # Wait at least 5 seconds when containers start
-  minReadySeconds: 5
-  # pod definition
+      run: comment-management
   template:
-    # pod metadata
     metadata:
-      # pod labels info
       labels:
-        app: comment-management
+        run: comment-management
     spec:
       containers:
-        - name: comment-management-container
+        - image: gcr.io/xend-326306:comment-management:latest
+          imagePullPolicy: IfNotPresent
+          name: comment-management-container
+          ports:
+            - name: liveness-port
+              containerPort: 5010
+              protocol: TCP
           # env
           env:
             - name: DB_ACCOUNT
@@ -46,17 +37,3 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: database
-          # use the docker images
-          image: gcr.io/xend-326306:comment-management:latest
-          ports:
-            - containerPort: 5010
-          # The kubelet uses liveness probes to know when to restart a container.
-          livenessProbe:
-            httpGet:
-              path: /comment-management/up
-              port: 5010
-            initialDelaySeconds: 15
-            periodSeconds: 14400
-            timeoutSeconds: 30
-            successThreshold: 1
-            failureThreshold: 3

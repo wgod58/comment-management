@@ -48,6 +48,12 @@ app.use(
   }),
 );
 
+// google gke health check
+app.get('/', (_, res) => {
+  logger.info('GKE health check');
+  return res.status(200).json();
+});
+
 app.use(`/${config.APP_NAME}/`, routes);
 
 app.use((req, res, next) => {

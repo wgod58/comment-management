@@ -2,18 +2,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
 spec:
-  rules:
-    - http:
-        paths:
-          # path to route
-          - path: /*
-            # match type
-            pathType: ImplementationSpecific
-            backend:
-              # point to specific service
-              service:
-                name: comment-management-service
-                # service port
-                port:
-                  number: 5010
+  defaultBackend:
+    service:
+      name: comment-management-service
+      port:
+        number: 5010

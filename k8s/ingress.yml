@@ -7,7 +7,7 @@ spec:
     - http:
         paths:
           # path to route
-          - path: /comment-management
+          - path: /*
             # match type
             pathType: ImplementationSpecific
             backend:

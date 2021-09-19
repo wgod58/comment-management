@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: comment-management
+  name: web
   namespace: default
 spec:
   selector:
     matchLabels:
-      run: comment-management
+      run: web
   template:
     metadata:
       labels:
-        run: comment-management
+        run: web
     spec:
       containers:
         - image: gcr.io/xend-326306/comment-management:latest
           imagePullPolicy: IfNotPresent
-          name: comment-management
+          name: web
           ports:
             - name: liveness-port
               containerPort: 5010

@@ -9,10 +9,40 @@ Comment Management is a NodeJS backend service which manage all comments for the
 - yarn (recommended and it is assume as the default package management tool in this documentation)
 - Google Cloud SDK
 
-## install gcloud
+# Swagger api document
+
+### For comment management
+
+```sh
+git clone git@github.com:wgod58/comment-management.git
+
+cd comment-management
+
+yarn install
+
+yarn run start
+
+```
+
+Open browser and check this endpoint
+
+- http://localhost:5020/comment-management/api-docs/
+
+# Install gcloud
 
 https://cloud.google.com/sdk/docs/install#mac
 gcloud command not found - while installing Google Cloud SDK
+
+## Setup gcloud
+
+```sh
+# select project id xend-326306
+# default zone us-west1-a
+$ gcloud init
+
+# If already have a account. Please logout first
+$ gcloud auth revoke
+```
 
 ### Setup
 
@@ -33,18 +63,9 @@ $ yarn husky install
 
 ```
 
-## The DB connection with localhost develop
+# The DB connection with localhost develop
 
 The Cloud SQL Auth proxy provides secure access to your instances without the need for Authorized networks or for configuring SSL.
-
-```sh
-# select project id xend-326306
-# default zone us-west1-a
-$ gcloud init
-
-# If already have a account. Please logout first
-$ gcloud auth revoke
-```
 
 ```sh
 curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.darwin.386
@@ -70,7 +91,7 @@ DB_ACCOUNT=
 DB_PASSWORD=
 ```
 
-### Development
+# Development
 
 To run the backend server while reload upon files change
 
@@ -91,13 +112,17 @@ $ yarn run:watch
 
 - End point:
 
-  1. RESTful http://localhost:5010/comment-management/
+  1.Swagger doc http://localhost:5020/comment-management/api-docs/
 
-  2. Swagger doc http://localhost:5010/comment-management/api-docs/
+  2.GET http://localhost:5020/comment-management/orgs/{org-name}/comments
 
-  3. Version http://localhost:5010/comment-management/version
+  3.POST http://localhost:5020/comment-management/orgs/{org-name}/comments
 
-### Unit test coverage report
+  3.DELETE http://localhost:5020/comment-management/orgs/{org-name}/comments
+
+  4.GET http://localhost:5020/comment-management/version -> get server version
+
+# Unit test coverage report
 
 ```sh
 $ yarn coverage
@@ -124,6 +149,6 @@ And it deploy to Google Kubernetes Engine automatically.
 
       - For more information about Cloud Build please view the Google GCloud Platform Documentation
 
-### Troubleshooting
+# Troubleshooting
 
 - Please update any issue here

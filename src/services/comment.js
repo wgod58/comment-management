@@ -3,6 +3,12 @@ import logger from 'utils/logger';
 
 const nameSpace = 'service/comment';
 
+/**
+ * Update post and organization
+ * @param {Object} data
+ * @param {string} data.comment the comment for organization
+ * @param {string} data.orgName the organization name that receive comment
+ */
 async function updatePostAndOrganization({ comment, orgName }) {
   const [org] = await organizationModel.findOrCreate({
     where: { orgName },
@@ -16,6 +22,11 @@ async function updatePostAndOrganization({ comment, orgName }) {
   );
 }
 
+/**
+ * Get comments by organization name.
+ * @param {Object} data
+ * @param {string} data.orgName the organization name to get comments
+ */
 async function getCommentsByOrganization({ orgName }) {
   const org = await organizationModel.findOne({
     where: { orgName },
@@ -30,6 +41,11 @@ async function getCommentsByOrganization({ orgName }) {
   return comments;
 }
 
+/**
+ * Delete comments by organization name.
+ * @param {Object} data
+ * @param {string} data.orgName the organization name to delete comments
+ */
 async function deleteComments({ orgName }) {
   const org = await organizationModel.findOne({ where: { orgName } });
 

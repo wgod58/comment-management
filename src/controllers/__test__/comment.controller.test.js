@@ -2,15 +2,6 @@ import responses from 'constants/responses';
 import commentController from 'controllers/comment';
 import commentService from 'services/comment';
 
-// commentService.deleteComments;
-// commentService.updatePostAndOrganization;
-// commentService.getCommentsByOrganization;
-
-// class mockResponse {
-//   static status = jest.fn().mockResolvedValue(this);
-//   static json = jest.fn().mockResolvedValue(this);
-// }
-
 describe('comment controller', () => {
   const comment = 'comment';
   const orgName = 'orgName';

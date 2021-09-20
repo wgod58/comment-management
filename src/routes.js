@@ -23,7 +23,7 @@ if (CONFIG.ENVIRONMENT === 'development') {
   router.get('/api-docs', swaggerUi.setup(apiSwagger));
 }
 
-/* User endpoints */
+/* Comment endpoints */
 router.get(
   '/orgs/:orgName/comments',
   commentsController.getCommentsByOrganization,
@@ -33,6 +33,7 @@ router.post(
   '/orgs/:orgName/comments',
   commentsController.updatePostAndOrganization,
 );
+
 router.delete('/orgs/:orgName/comments', commentsController.deleteComments);
 
 export default router;

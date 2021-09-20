@@ -4,6 +4,12 @@ import logger from 'utils/logger';
 
 const nameSpace = 'controller/comment';
 
+/**
+ * Handle express req and res to update post and org
+ * @param {Object} req
+ * @param {Object} res
+ * @returns
+ */
 async function updatePostAndOrganization(req, res) {
   try {
     const data = { ...req.query, ...req.body, ...req.params };
@@ -26,6 +32,12 @@ async function updatePostAndOrganization(req, res) {
   }
 }
 
+/**
+ * Handle express req and res to get comments by organization
+ * @param {Object} req
+ * @param {Object} res
+ * @returns
+ */
 async function getCommentsByOrganization(req, res) {
   try {
     const data = { ...req.query, ...req.body, ...req.params };
@@ -50,6 +62,12 @@ async function getCommentsByOrganization(req, res) {
   }
 }
 
+/**
+ * Handle express req and res to delete comments by organization
+ * @param {Object} req
+ * @param {Object} res
+ * @returns
+ */
 async function deleteComments(req, res) {
   try {
     const data = { ...req.query, ...req.body, ...req.params };

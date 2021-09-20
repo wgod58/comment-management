@@ -1,35 +1,39 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "User management API",
-    "version": "0.1.5"
+    "title": "Comment management API",
+    "version": "0.1.4"
   },
   "servers": [
     {
-      "url": "https://backend.fabryque.com/test/user-management/api",
-      "description": "User management API"
+      "url": "http://34.149.193.224/comment-management/",
+      "description": "Comment management API"
     }
   ],
   "tags": [
     {
-      "name": "User",
-      "description": "User api"
-    },
-    {
-      "name": "Staff",
-      "description": "Staff api"
+      "name": "Comment",
+      "description": "Comment api"
     }
   ],
   "paths": {
-    "/update-user-info": {
+    "/orgs/{orgName}/comments": {
       "post": {
         "tags": [
-          "User"
+          "Comment"
         ],
         "summary": "update user information",
-        "security": [
+        "parameters": [
           {
-            "bearerAuth": []
+            "name": "orgName",
+            "in": "path",
+            "description": "Organization name",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "xendit"
+            }
           }
         ],
         "requestBody": {
@@ -39,24 +43,12 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "userId",
-                  "userInfo"
+                  "comment"
                 ],
                 "properties": {
-                  "userId": {
-                    "type": "integer",
-                    "example": 12
-                  },
-                  "userInfo": {
-                    "type": "object",
-                    "example": {
-                      "firstName": "May",
-                      "lastName": "Test",
-                      "gender": 1,
-                      "height": 180,
-                      "weight": 80,
-                      "birthDate": "1980-01-01"
-                    }
+                  "comment": {
+                    "type": "string",
+                    "example": "looking forward!"
                   }
                 }
               }
@@ -64,60 +56,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Response success",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "update success"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Response error",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_500"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/send-password-changed-email": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Send email to notify user of a password changed event",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "description": "Email",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SendPasswordChangedEmail"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "password changed/reset notification sent"
+          "204": {
+            "description": "Create success"
           },
           "400": {
             "description": "Response error request",
@@ -140,24 +80,76 @@
             }
           }
         }
-      }
-    },
-    "/unsubscribe/{email}": {
-      "delete": {
+      },
+      "get": {
         "tags": [
-          "User"
+          "Comment"
         ],
-        "summary": "unsubscribe an email",
+        "summary": "get staffs information",
         "parameters": [
           {
-            "name": "email",
+            "name": "orgName",
             "in": "path",
-            "description": "Unsubscribe email",
+            "description": "Organization name",
             "required": true,
             "explode": true,
             "schema": {
               "type": "string",
-              "example": "test@test.com"
+              "example": "xendit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status on delete success",
+            "content": {
+              "applocation/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/comment"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Response error request",
+            "content": {
+              "applocation/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Response error",
+            "content": {
+              "applocation/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_500"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Comment"
+        ],
+        "summary": "unsubscribe an email",
+        "parameters": [
+          {
+            "name": "orgName",
+            "in": "path",
+            "description": "Organization name",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "xendit"
             }
           }
         ],
@@ -187,585 +179,35 @@
           }
         }
       }
-    },
-    "/notification-subscribe": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "subscribe",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "description": "subscribe notification",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "token",
-                  "topic"
-                ],
-                "properties": {
-                  "token": {
-                    "type": "string",
-                    "example": "thetoken"
-                  },
-                  "topic": {
-                    "type": "string",
-                    "example": "customer"
-                  }
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "subscribe success"
-          },
-          "400": {
-            "description": "Response error request",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_400"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Response error",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_500"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notification-send": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "send notify",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "description": "send notification",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "payload",
-                  "target",
-                  "token"
-                ],
-                "properties": {
-                  "payload": {
-                    "type": "object"
-                  },
-                  "token": {
-                    "type": "string",
-                    "example": "thetoken"
-                  },
-                  "target": {
-                    "type": "string",
-                    "example": "customer"
-                  }
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "subscribe success"
-          },
-          "400": {
-            "description": "Response error request",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_400"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Response error",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_500"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/staffs": {
-      "get": {
-        "tags": [
-          "Staff"
-        ],
-        "summary": "get staffs information",
-        "parameters": [
-          {
-            "name": "archived",
-            "in": "query",
-            "description": "get staffs",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "example": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Response status on delete success",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "example": "SUCCESS"
-                    },
-                    "result": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/staff"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Response body for Bad Request",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_404"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Response error",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_500"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/staffs/{id}": {
-      "get": {
-        "tags": [
-          "Staff"
-        ],
-        "summary": "get staffs information",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "get staffs",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "example": 1
-            }
-          },
-          {
-            "name": "get_type",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "example": "AUDIT_ID"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Response status on delete success",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "example": "SUCCESS"
-                    },
-                    "result": {
-                      "$ref": "#/components/schemas/staff"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Response body for Bad Request",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_404"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Response error",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_500"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Staff"
-        ],
-        "summary": "update staff information",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "get staffs",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "example": 1
-            }
-          },
-          {
-            "name": "archived",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": 1
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "send notification",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/staff"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Response status on delete success",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "example": "SUCCESS"
-                    },
-                    "result": {
-                      "$ref": "#/components/schemas/staff"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Response body for Bad Request",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_404"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Response error",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_500"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/create-staff": {
-      "post": {
-        "tags": [
-          "Staff"
-        ],
-        "summary": "create staff",
-        "requestBody": {
-          "description": "send notification",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "account": {
-                    "type": "string"
-                  },
-                  "position": {
-                    "type": "string"
-                  },
-                  "firstName": {
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "phone": {
-                    "type": "string"
-                  },
-                  "address": {
-                    "type": "string"
-                  },
-                  "addressR": {
-                    "type": "string"
-                  },
-                  "picture": {
-                    "type": "string"
-                  },
-                  "comment": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Response status on delete success",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "example": "SUCCESS"
-                    },
-                    "result": {
-                      "$ref": "#/components/schemas/staff"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Response body for Bad Request",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_404"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Response error",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_500"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/forgot-password": {
-      "post": {
-        "tags": [
-          "Staff"
-        ],
-        "summary": "create staff",
-        "requestBody": {
-          "description": "send notification",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "test@test.com"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Response status on delete success",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "example": "SUCCESS"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Response body for Bad Request",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_404"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Response error",
-            "content": {
-              "applocation/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_500"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    },
     "schemas": {
-      "staff": {
+      "comment": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "example": 1
           },
-          "account": {
-            "type": "string"
-          },
-          "authId": {
-            "type": "string"
-          },
-          "position": {
-            "type": "string"
-          },
-          "rights": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "addressR": {
-            "type": "string"
-          },
-          "picture": {
-            "type": "string"
-          },
           "comment": {
             "type": "string"
           },
-          "employmentTimeStart": {
-            "type": "string"
-          },
-          "employmentTimeEnd": {
+          "createdAt": {
             "type": "string",
-            "example": "SUCCESS"
+            "example": "2021-09-20T08:35:29.753Z"
           },
-          "archived": {
-            "type": "boolean"
-          }
-        }
-      },
-      "SendPasswordChangedEmail": {
-        "required": [
-          "email"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
+          "updatedAt": {
             "type": "string",
-            "example": "test@example.com"
+            "example": "2021-09-20T08:35:29.753Z"
           },
-          "action": {
-            "type": "string",
-            "default": "changed",
-            "example": "reset"
+          "deleteMark": {
+            "type": "boolean",
+            "example": false
+          },
+          "organizationId": {
+            "type": "integer",
+            "example": 1
           }
         }
       },
@@ -774,7 +216,7 @@
         "properties": {
           "message": {
             "type": "string",
-            "example": "miss params"
+            "example": "Miss parameters"
           }
         }
       },
@@ -783,19 +225,7 @@
         "properties": {
           "message": {
             "type": "string",
-            "example": "Something went wrong"
-          }
-        }
-      },
-      "inline_response_404": {
-        "properties": {
-          "code": {
-            "type": "string",
-            "example": "FAIL"
-          },
-          "error": {
-            "type": "string",
-            "example": "function xxx does not exist"
+            "example": "Server Error"
           }
         }
       }

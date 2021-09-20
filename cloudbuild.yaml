@@ -21,8 +21,18 @@ steps:
     'gcr.io/$PROJECT_ID/comment-management:latest',
     '.'
     ]
+  # Push Docker image short commit tag
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/comment-management:$SHORT_SHA"]
+  # Push Docker image latest tag
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/comment-management:latest"]
+  # Apply 
+  - name: "gcr.io/cloud-builders/kubectl"
+    args: ["apply", "-f", "k8s/"]
+    env:
+      - "CLOUDSDK_COMPUTE_ZONE=us-west1-a"
+      - "CLOUDSDK_CONTAINER_CLUSTER=loadbalance"
   # Update container image to GKE
   - name: "gcr.io/cloud-builders/kubectl"
     args:
@@ -35,5 +45,4 @@ steps:
     env:
       - "CLOUDSDK_COMPUTE_ZONE=us-west1-a"
       - "CLOUDSDK_CONTAINER_CLUSTER=loadbalance"
-# Push the container image to Container Registry
-images: ["gcr.io/$PROJECT_ID/comment-management:latest"]
+

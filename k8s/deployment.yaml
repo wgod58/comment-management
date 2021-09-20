@@ -6,16 +6,21 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: web
+      run: web
   template:
     metadata:
       labels:
-        app: web
+        run: web
     spec:
       containers:
-        - name: web
-          image: gcr.io/xend-326306/comment-management:latest
+        - image: gcr.io/xend-326306/comment-management:latest
           imagePullPolicy: IfNotPresent
+          name: web
+          ports:
+            - name: liveness-port
+              containerPort: 5010
+              protocol: TCP
+          # env
           env:
             - name: DB_ACCOUNT
               valueFrom:

@@ -6,7 +6,6 @@ describe('commentModel orm', () => {
 
     expect(Object.keys(result)).toMatchObject([
       'id',
-      'organizationId',
       'comment',
       'deleteMark',
       'createdAt',

@@ -8,7 +8,6 @@ const nameSpace = 'controller/comment';
  * Handle express req and res to update post and org
  * @param {Object} req
  * @param {Object} res
- * @returns
  */
 async function updatePostAndOrganization(req, res) {
   try {
@@ -36,7 +35,6 @@ async function updatePostAndOrganization(req, res) {
  * Handle express req and res to get comments by organization
  * @param {Object} req
  * @param {Object} res
- * @returns
  */
 async function getCommentsByOrganization(req, res) {
   try {

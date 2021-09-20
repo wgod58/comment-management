@@ -191,7 +191,8 @@
             "example": 1
           },
           "comment": {
-            "type": "string"
+            "type": "string",
+            "example": "Nice service"
           },
           "createdAt": {
             "type": "string",

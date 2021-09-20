@@ -126,4 +126,4 @@ And it deploy to Google Kubernetes Engine automatically.
 
 ### Troubleshooting
 
-- Currently, there is no specific known issues needed to be noted. (Update at 2021-01-13)
+- Please update any issue here

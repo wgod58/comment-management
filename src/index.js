@@ -13,6 +13,5 @@ const initialMsg = {
 };
 
 server.listen(config.SERVER_PORT, () => {
-  console.log(config.DATABASE);
   logger.info(`${nameSpace} :initializeServer=> ${JSON.stringify(initialMsg)}`);
 });
